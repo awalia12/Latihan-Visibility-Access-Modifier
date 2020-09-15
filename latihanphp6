@@ -1,0 +1,63 @@
+<?php
+class produk{
+  	public $barang, $merk;
+  	protected $diskon;
+  	private $harga;
+
+ 	public function getCetak(){
+  		return "$this->merk, (Rp $this->harga)";
+}
+ 	public function __construct($barang="barang", $merk="merk", $harga=0, $ukuranLayar="ukuran layar", $kapasitas="kapasitas"){
+ 		$this->barang=$barang;
+  		$this->merk=$merk;
+  		$this->harga=$harga;
+ }
+
+ 	public function cetakInfo(){
+		$str="{$this->barang}, {$this->getCetak()}";
+		return $str; 
+	}
+
+	public function setDiskon($diskon){
+		return $this->diskon=$diskon;
+	}
+
+	public function getHarga(){
+		return $this->harga - ($this->harga * $this->diskon / 100);
+	}
+}
+
+class laptop extends produk{
+	public $ukuranLayar;
+	public function __construct ($barang="barang", $merk="merk", $harga=0, $ukuranLayar="ukuran layar"){
+		parent::__construct($barang, $merk, $harga);
+		$this->ukuranLayar=$ukuranLayar;
+	}
+
+	public function cetakInfo(){
+		$str="Laptop: ".parent::getCetak()." | Ukuran Layar : {$this->ukuranLayar}";
+			return $str; 	
+	}
+}
+class flashdisk extends produk{
+	public $kapasitas;
+	public function __construct ($barang="barang", $merk="merk", $harga=0, $kapasitas="kapasitas"){
+		parent::__construct($barang, $merk, $harga);
+		$this->kapasitas=$kapasitas;
+	}
+	public function cetakInfo(){
+		$str="Aksesoris: ".parent::getCetak()." | Kapasitas : {$this->kapasitas}";
+			return $str; 
+	}
+}
+
+$produk1 = new laptop ("idepad 310", "Lenovo", 7000000, "14 inci");
+$produk2 = new flashdisk ("Flashdisk", "Sandisk", 100000, "8 GB");
+
+echo $produk1->cetakInfo();
+echo "<br>";
+echo $produk2->cetakInfo();
+echo "<br>";
+echo "<hr>";
+$produk1->setDiskon(40);
+echo $produk1->getHarga();
